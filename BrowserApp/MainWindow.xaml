@@ -1,0 +1,69 @@
+<Window x:Class="BrowserApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wv="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls.WebView"
+        mc:Ignorable="d"
+        Title="Modern Browser" Height="600" Width="900" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#2F80ED"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="8 4"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header with Logo -->
+        <Border Grid.Row="0" Background="#282C34" Height="40">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Image Source="https://images.pexels.com/photos/3761509/pexels-photo-3761509.jpeg" 
+                       Width="32" Height="32" Margin="10 0"/>
+                <TextBlock Text="Modern Browser" Foreground="White" FontSize="16" 
+                           VerticalAlignment="Center" Margin="10 0"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Navigation Bar -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Background="#414752" Padding="5">
+            <Button Content="←" Name="btnBack" Width="30" Click="btnBack_Click"/>
+            <Button Content="→" Name="btnForward" Width="30" Click="btnForward_Click"/>
+            <Button Content="↻" Name="btnRefresh" Width="30" Click="btnRefresh_Click"/>
+            
+            <TextBox Name="txtAddress" Margin="5 0" Width="500" VerticalContentAlignment="Center"
+                    KeyDown="txtAddress_KeyDown"/>
+            
+            <Button Content="Go" Name="btnGo" Click="btnGo_Click" Width="40"/>
+            <Button Content="+" Name="btnNewTab" Click="btnNewTab_Click" Width="30" Margin="10 0 0 0"/>
+        </StackPanel>
+        
+        <!-- Tab Control -->
+        <TabControl Grid.Row="2" Name="tabControl">
+            <TabItem Header="New Tab">
+                <wv:WebView Name="webView" Source="https://www.google.com"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
