@@ -17,6 +17,16 @@ namespace BrowserApp
                 TransparencySlider.ValueChanged += (s, e) => 
                     this.Opacity = TransparencySlider.Value;
             }
+
+            // Handle WebView2 errors
+            if (ScriptHubFrame != null)
+            {
+                ScriptHubFrame.NavigationFailed += (sender, e) => 
+                {
+                    MessageBox.Show($"Failed to load ScriptBlox: {e.Exception.Message}", 
+                        "Navigation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                };
+            }
         }
 
         private void MinimizeWindow(object sender, RoutedEventArgs e)
@@ -38,10 +48,23 @@ namespace BrowserApp
 
         private void OpenFile(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
+            try
             {
-                EditorTextBox.Text = System.IO.File.ReadAllText(openFileDialog.FileName);
+                var openFileDialog = new Microsoft.Win32.OpenFileDialog
+                {
+                    Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
+                    Title = "Open Text File"
+                };
+
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    EditorTextBox.Text = System.IO.File.ReadAllText(openFileDialog.FileName);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show($"Error opening file: {ex.Message}", "File Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
