@@ -3,67 +3,82 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:wv="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls.WebView"
         mc:Ignorable="d"
-        Title="Modern Browser" Height="600" Width="900" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="#2F80ED"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="8 4"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="4">
-                            <ContentPresenter HorizontalAlignment="Center" 
-                                            VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        
-        <!-- Header with Logo -->
-        <Border Grid.Row="0" Background="#282C34" Height="40">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <Image Source="https://images.pexels.com/photos/3761509/pexels-photo-3761509.jpeg" 
-                       Width="32" Height="32" Margin="10 0"/>
-                <TextBlock Text="Modern Browser" Foreground="White" FontSize="16" 
-                           VerticalAlignment="Center" Margin="10 0"/>
+        Title="Windows - 3.0" Height="600" Width="900"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent">
+    <Border Background="#FF0F0F1A" CornerRadius="10" BorderThickness="1" BorderBrush="#FF4A4A6A">
+        <Grid>
+            <!-- Window Controls -->
+            <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0">
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{StaticResource WindowButton}" Content="-" Click="MinimizeWindow"/>
+                    <Button Style="{StaticResource WindowButton}" Content="□" Click="MaximizeWindow"/>
+                    <Button Style="{StaticResource WindowButton}" Content="X" Click="CloseWindow"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Title Bar -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0">
+                <Image Source="icon.png" Width="24" Height="24" Margin="0,0,10,0"/>
+                <TextBlock Text="Windows - 3.0" FontSize="18" Foreground="#FF00E5FF" FontWeight="Bold"/>
             </StackPanel>
-        </Border>
-        
-        <!-- Navigation Bar -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Background="#414752" Padding="5">
-            <Button Content="←" Name="btnBack" Width="30" Click="btnBack_Click"/>
-            <Button Content="→" Name="btnForward" Width="30" Click="btnForward_Click"/>
-            <Button Content="↻" Name="btnRefresh" Width="30" Click="btnRefresh_Click"/>
-            
-            <TextBox Name="txtAddress" Margin="5 0" Width="500" VerticalContentAlignment="Center"
-                    KeyDown="txtAddress_KeyDown"/>
-            
-            <Button Content="Go" Name="btnGo" Click="btnGo_Click" Width="40"/>
-            <Button Content="+" Name="btnNewTab" Click="btnNewTab_Click" Width="30" Margin="10 0 0 0"/>
-        </StackPanel>
-        
-        <!-- Tab Control -->
-        <TabControl Grid.Row="2" Name="tabControl">
-            <TabItem Header="New Tab">
-                <wv:WebView Name="webView" Source="https://www.google.com"/>
-            </TabItem>
-        </TabControl>
-    </Grid>
+
+            <!-- Main Content -->
+            <TabControl x:Name="MainTabs" Margin="10,50,10,10" Background="Transparent" BorderThickness="0">
+                <!-- ScriptHub Tab -->
+                <TabItem Header="ScriptBlox" Style="{StaticResource ElectroTabItem}">
+                    <Frame x:Name="ScriptHubFrame" Source="https://scriptblox.com" NavigationUIVisibility="Hidden"/>
+                </TabItem>
+
+                <!-- Editor Tab -->
+                <TabItem Header="Editor" Style="{StaticResource ElectroTabItem}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!-- Editor Toolbar -->
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Background="#FF1A1A2E" Height="40">
+                            <Button Content="File" Style="{StaticResource ElectroButton}"/>
+                            <Button Content="Edit" Style="{StaticResource ElectroButton}"/>
+                            <Button Content="Settings" Style="{StaticResource ElectroButton}" Click="OpenSettings"/>
+                        </StackPanel>
+                        
+                        <!-- Text Editor -->
+                        <TextBox x:Name="EditorTextBox" Grid.Row="1" 
+                                 Background="#FF1A1A2E" Foreground="#FF00E5FF" 
+                                 FontFamily="Consolas" FontSize="14" 
+                                 AcceptsReturn="True" AcceptsTab="True"
+                                 VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+
+            <!-- Settings Panel (Initially Hidden) -->
+            <Border x:Name="SettingsPanel" Visibility="Collapsed" Width="300" Height="400" 
+                    Background="#FF1A1A2E" CornerRadius="5" BorderBrush="#FF4A4A6A" BorderThickness="1"
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Settings" FontSize="18" Foreground="#FF00E5FF" FontWeight="Bold"/>
+                    
+                    <StackPanel Margin="0,20,0,0">
+                        <TextBlock Text="Window Transparency" Foreground="White"/>
+                        <Slider x:Name="TransparencySlider" Minimum="0.3" Maximum="1" Value="1" Margin="0,5,0,0"/>
+                    </StackPanel>
+                    
+                    <StackPanel Margin="0,20,0,0">
+                        <TextBlock Text="Editor Font" Foreground="White"/>
+                        <ComboBox x:Name="FontComboBox" Margin="0,5,0,0">
+                            <ComboBoxItem Content="Consolas"/>
+                            <ComboBoxItem Content="Courier New"/>
+                            <ComboBoxItem Content="Lucida Console"/>
+                        </ComboBox>
+                    </StackPanel>
+                    
+                    <Button Content="Close" Style="{StaticResource ElectroButton}" Click="CloseSettings" Margin="0,20,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
 </Window>
