@@ -11,9 +11,15 @@
             <!-- Window Controls -->
             <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0">
                 <StackPanel Orientation="Horizontal">
-                    <Button Style="{StaticResource WindowButton}" Content="-" Click="MinimizeWindow"/>
-                    <Button Style="{StaticResource WindowButton}" Content="□" Click="MaximizeWindow"/>
-                    <Button Style="{StaticResource WindowButton}" Content="X" Click="CloseWindow"/>
+                    <Button Style="{StaticResource WindowButton}" Click="MinimizeWindow">
+                        <Image Source="minimize.png" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource WindowButton}" Click="MaximizeWindow">
+                        <Image Source="maximize.png" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource WindowButton}" Click="CloseWindow">
+                        <Image Source="close.png" Width="16" Height="16"/>
+                    </Button>
                 </StackPanel>
             </Grid>
 
@@ -39,11 +45,26 @@
                         </Grid.RowDefinitions>
                         
                         <!-- Editor Toolbar -->
-                        <StackPanel Orientation="Horizontal" Grid.Row="0" Background="#FF1A1A2E" Height="40">
-                            <Button Content="File" Style="{StaticResource ElectroButton}"/>
-                            <Button Content="Edit" Style="{StaticResource ElectroButton}"/>
-                            <Button Content="Settings" Style="{StaticResource ElectroButton}" Click="OpenSettings"/>
-                        </StackPanel>
+                        <ToolBar Grid.Row="0" Background="#FF1A1A2E" Height="50">
+                            <Button Style="{StaticResource ElectroButton}" Click="OpenFile">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="file.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                                    <TextBlock Text="File" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ElectroButton}" Click="OpenEdit">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="edit.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Edit" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ElectroButton}" Click="OpenSettings">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="settings.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Settings" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </ToolBar>
                         
                         <!-- Text Editor -->
                         <TextBox x:Name="EditorTextBox" Grid.Row="1" 
